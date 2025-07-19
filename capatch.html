@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An advanced, gamified CAPTCHA verification system" />
+  <meta name="author" content="xAI Enhanced Smart Captcha" />
+  <meta name="theme-color" content="#1e1e2f" />
+  <title>Smart Captcha - Ultimate Verification</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" />
+  <link rel="manifest" href="/manifest.json" />
+  <style>
+    :root {
+      --primary-bg: linear-gradient(135deg, #1e1e2f 0%, #27293d 100%);
+      --accent-color: #00d4ff;
+      --success-color: #39ff14;
+      --error-color: #ff4d4d;
+      --text-color: #e0e0e0;
+      --card-bg: rgba(30, 30, 47, 0.95);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --glow: 0 0 15px rgba(0, 212, 255, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font-family);
+      background: var(--primary-bg);
+      color: var(--text-color);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .captcha-container {
+      position: relative;
+      width: 90vw;
+      max-width: 480px;
+      padding: 3rem;
+      background: var(--card-bg);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+      text-align: center;
+      z-index: 10;
+      transition: var(--transition);
+    }
+
+    .captcha-container:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+    }
+
+    .captcha-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.8rem;
+      color: var(--accent-color);
+      letter-spacing: 0.8px;
+      text-shadow: var(--glow);
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+      position: relative;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: var(--success-color);
+      border-radius: 12px;
+      transition: width 0.15s ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.3) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0.3) 75%,
+        transparent 75%
+      );
+      background-size: 20px 20px;
+      animation: shimmer 1.5s linear infinite;
+    }
+
+    .progress-score {
+      font-size: 1rem;
+      color: var(--text-color);
+      opacity: 0.7;
+      margin-top: 0.5rem;
+    }
+
+    .verify-button {
+      padding: 1.2rem 3rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--glow);
+    }
+
+    .verify-button:hover {
+      background: #00b8e6;
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6);
+    }
+
+    .verify-button:active {
+      background: #0099cc;
+      transform: scale(0.95);
+      box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .verify-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+      );
+      transition: left 0.3s ease;
+    }
+
+    .verify-button:hover::before {
+      left: 100%;
+    }
+
+    .background-effects {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .effect-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(
+        60deg,
+        rgba(0, 212, 255, 0.3) 0%,
+        rgba(57, 255, 20, 0.3) 50%,
+        transparent 50%
+      );
+      opacity: 0.4;
+      animation: slideEffect 5s ease-in-out infinite;
+    }
+
+    .effect-layer:nth-child(2) {
+      animation-duration: 7s;
+      animation-direction: alternate-reverse;
+      opacity: 0.3;
+    }
+
+    .effect-layer:nth-child(3) {
+      animation-duration: 9s;
+      opacity: 0.2;
+    }
+
+    .success-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(30, 30, 47, 0.95);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    .success-overlay h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--success-color);
+      margin-bottom: 1.2rem;
+      text-shadow: 0 0 15px rgba(57, 255, 20, 0.6);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    .success-overlay p {
+      font-size: 1.3rem;
+      color: var(--text-color);
+      opacity: 0.9;
+    }
+
+    .welcome-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, #1e1e2f, #12121b);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 30;
+      animation: fadeOut 1.5s ease 2s forwards;
+      pointer-events: none;
+    }
+
+    .welcome-screen h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--accent-color);
+      text-shadow: 0 0 25px rgba(0, 212, 255, 0.6);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 15;
+    }
+
+    /* Animations */
+    @keyframes slideEffect {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -80px 0; }
+      100% { background-position: 80px 0; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    @keyframes errorBlink {
+      0%, 100% { background: var(--card-bg); }
+      50% { background: rgba(255, 77, 77, 0.3); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    .error-state {
+      animation: errorBlink 0.4s ease-in-out 3;
+    }
+
+    .shake {
+      animation: shake 0.3s ease-in-out;
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .captcha-container, .verify-button, .progress-bar, .effect-layer, .success-overlay h1, .welcome-screen h1 {
+        transition: none;
+        animation: none;
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .captcha-container {
+        padding: 2rem;
+      }
+      .captcha-title {
+        font-size: 1.6rem;
+      }
+      .verify-button {
+        font-size: 1.1rem;
+        padding: 1rem 2rem;
+      }
+      .success-overlay h1 {
+        font-size: 2.2rem;
+      }
+      .welcome-screen h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    /* RTL Support */
+    [dir="rtl"] .captcha-title,
+    [dir="rtl"] .success-overlay h1,
+    [dir="rtl"] .success-overlay p {
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+
+  <!-- Welcome Screen -->
+  <div class="welcome-screen">
+    <h1>Smart Captcha</h1>
+  </div>
+
+  <!-- Background Effects -->
+  <div class="background-effects">
+    <div class="effect-layer"></div>
+    <div class="effect-layer"></div>
+    <div class="effect-layer"></div>
+  </div>
+
+  <!-- Captcha Container -->
+  <div class="captcha-container" role="region" aria-live="polite">
+    <h2 class="captcha-title">Verify You're Human</h2>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+    <p class="progress-score" id="progressScore">Verification Strength: 0%</p>
+    <button class="verify-button" id="verifyButton" aria-label="Hold to verify humanity">Hold to Verify</button>
+  </div>
+
+  <!-- Success Overlay -->
+  <div class="success-overlay" id="successOverlay">
+    <h1>Verification Successful!</h1>
+    <p>You've passed the CAPTCHA test.</p>
+  </div>
+
+  <!-- Canvas for Confetti -->
+  <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 25; pointer-events: none;"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    let isDarkTheme = localStorage.getItem('theme') !== 'light';
+    
+    const applyTheme = () => {
+      root.style.setProperty('--primary-bg', isDarkTheme ? 'linear-gradient(135deg, #1e1e2f 0%, #27293d 100%)' : 'linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%)');
+      root.style.setProperty('--card-bg', isDarkTheme ? 'rgba(30, 30, 47, 0.95)' : 'rgba(255, 255, 255, 0.95)');
+      root.style.setProperty('--text-color', isDarkTheme ? '#e0e0e0' : '#333333');
+      themeToggle.textContent = isDarkTheme ? '🌙' : '☀️';
+      localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+    };
+    
+    themeToggle.addEventListener('click', () => {
+      isDarkTheme = !isDarkTheme;
+      applyTheme();
+    });
+    applyTheme();
+
+    // IP Logging (assumes secure backend endpoint)
+    fetch('https://api.example.com/log-ip', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ timestamp: new Date().toISOString() })
+    }).catch(() => console.log('IP logging failed'));
+
+    // DOM Elements
+    const verifyButton = document.getElementById('verifyButton');
+    const progressBar = document.getElementById('progressBar');
+    const progressScore = document.getElementById('progressScore');
+    const captchaContainer = document.querySelector('.captcha-container');
+    const successOverlay = document.getElementById('successOverlay');
+    const confettiCanvas = document.getElementById('confettiCanvas');
+
+    // State Variables
+    let progress = 0;
+    let holdInterval = null;
+    let releaseInterval = null;
+    let isHolding = false;
+    let attemptCount = 0;
+    const maxAttempts = 3;
+
+    // Sound Effects (use valid URLs or local files)
+    const clickSound = new Audio('https://freesound.org/data/previews/171/171671_2437358-lq.mp3');
+    const successSound = new Audio('https://freesound.org/data/previews/171/171671_2437358-lq.mp3'); // Replace with actual success sound
+
+    // Utility Functions
+    const getRedirectTarget = () => {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('redirect') || 'index.html';
+    };
+
+    // Update Progress Bar
+    const updateProgress = () => {
+      progress = Math.max(0, Math.min(100, progress));
+      progressBar.style.width = `${progress}%`;
+      progressBar.setAttribute('aria-valuenow', progress);
+      progressScore.textContent = `Verification Strength: ${progress}%`;
+    };
+
+    // Confetti Animation
+    const triggerConfetti = () => {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#39ff14', '#00d4ff', '#ffffff']
+      });
+    };
+
+    // Start Hold Verification with Crash Prevention
+    const startHold = () => {
+      if (isHolding || attemptCount >= maxAttempts) {
+        if (attemptCount >= maxAttempts) {
+          captchaContainer.classList.add('shake');
+          setTimeout(() => captchaContainer.classList.remove('shake'), 300);
+          console.warn('Max attempts reached');
+          return;
+        }
+        return;
+      }
+      try {
+        isHolding = true;
+        attemptCount++;
+        captchaContainer.classList.add('error-state');
+        clickSound.play().catch(() => console.log('Click sound failed'));
+        navigator.vibrate?.(50);
+        if (releaseInterval) clearInterval(releaseInterval);
+
+        holdInterval = setInterval(() => {
+          try {
+            if (progress < 100) {
+              progress += 1;
+              updateProgress();
+            } else {
+              clearInterval(holdInterval);
+              holdInterval = null;
+              isHolding = false;
+              captchaContainer.classList.remove('error-state');
+              captchaContainer.style.display = 'none';
+              successOverlay.style.display = 'flex';
+              successSound.play().catch(() => console.log('Success sound failed'));
+              triggerConfetti();
+
+              // Backend Verification (optional)
+              fetch('https://api.example.com/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ token: 'CAPTCHA_SUCCESS', progress })
+              })
+              .then(() => {
+                // Redirect after success
+                setTimeout(() => {
+                  window.location.href = getRedirectTarget();
+                }, 2000); // 2-second delay for user feedback
+              })
+              .catch((error) => {
+                console.error('Verification failed:', error);
+                alert('Verification failed. Please try again.');
+                captchaContainer.style.display = 'block';
+                successOverlay.style.display = 'none';
+              });
+            }
+          } catch (error) {
+            console.error('Error in hold interval:', error);
+            clearInterval(holdInterval);
+            holdInterval = null;
+            captchaContainer.classList.remove('error-state');
+          }
+        }, 50); // Adjusted for efficiency (was 40ms)
+      } catch (error) {
+        console.error('Start hold failed:', error);
+        isHolding = false;
+      }
+    };
+
+    // Stop Hold Verification with Crash Prevention
+    const stopHold = () => {
+      if (!isHolding) return;
+      try {
+        isHolding = false;
+        captchaContainer.classList.remove('error-state');
+        if (holdInterval) clearInterval(holdInterval);
+        holdInterval = null;
+
+        releaseInterval = setInterval(() => {
+          try {
+            if (!isHolding && progress > 0 && progress < 100) {
+              progress -= 1.5;
+              updateProgress();
+            } else if (progress <= 0) {
+              clearInterval(releaseInterval);
+              releaseInterval = null;
+            }
+          } catch (error) {
+            console.error('Error in release interval:', error);
+            clearInterval(releaseInterval);
+            releaseInterval = null;
+          }
+        }, 100); // Adjusted for efficiency (was 80ms)
+      } catch (error) {
+        console.error('Stop hold failed:', error);
+      }
+    };
+
+    // Enhanced Bot Detection
+    let mouseMovements = 0;
+    let touchEvents = 0;
+    document.addEventListener('mousemove', () => mouseMovements++);
+    document.addEventListener('touchmove', () => touchEvents++);
+
+    const checkBot = () => {
+      if (mouseMovements < 5 && touchEvents < 5 && attemptCount > 1) {
+        console.warn('Possible bot detected');
+        alert('Suspicious activity detected. Please try again or contact support.');
+        return false;
+      }
+      return true;
+    };
+
+    // Event Listeners with Cleanup
+    const addEventListeners = () => {
+      verifyButton.addEventListener('mousedown', () => checkBot() && startHold());
+      document.addEventListener('mouseup', stopHold);
+      verifyButton.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        checkBot() && startHold();
+      });
+      document.addEventListener('touchend', stopHold);
+      verifyButton.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          checkBot() && startHold();
+        }
+      });
+      verifyButton.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          stopHold();
+        }
+      });
+      verifyButton.addEventListener('contextmenu', (e) => e.preventDefault());
+    };
+
+    // Cleanup on Page Unload
+    window.addEventListener('unload', () => {
+      if (holdInterval) clearInterval(holdInterval);
+      if (releaseInterval) clearInterval(releaseInterval);
+    });
+
+    // Initialize
+    addEventListeners();
+
+    // Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/service-worker.js')
+        .catch(() => console.log('Service Worker registration failed'));
+    }
+  </script>
+</body>
+</html>

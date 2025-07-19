@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Freight Data⚡-U.S. | AI-Powered Logistics Network</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1abc9c;
+      --dark: #1f2d3d;
+      --light: #f9f9f9;
+      --accent: #16a085;
+      --highlight: #e74c3c;
+      --shadow: rgba(0,0,0,0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light);
+      color: var(--dark);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      text-align: center;
+      padding: 4rem 1rem;
+      position: ;
+      top: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    header.scrolled {
+      padding: 1.5rem 1rem;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    header h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      animation: slideInDown 1s ease-in-out;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    header p {
+      font-size: 1.3rem;
+      max-width: 800px;
+      margin: 0 auto;
+      opacity: 0;
+      animation: fadeIn 1s ease-in-out 0.5s forwards;
+    }
+
+    .hero {
+      width: 100%;
+      height: 350px;
+      background: url('img.jpg') center/cover no-repeat;
+      border-radius: 16px;
+      margin: 2rem auto;
+      max-width: 1000px;
+      box-shadow: 0 12px 24px var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      transition: opacity 0.4s ease;
+    }
+
+    .hero:hover::before {
+      opacity: 0;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 2.5rem;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s ease-in-out forwards;
+    }
+
+    section h2 {
+      font-size: 2.2rem;
+      color: var(--primary);
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+      font-weight: 900;
+    }
+
+    section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 60%;
+      height: 4px;
+      background: var(--highlight);
+      transition: width 0.4s ease;
+    }
+
+    section:hover h2::after {
+      width: 100%;
+    }
+
+    section h4 {
+      font-size: 1.5rem;
+      color: var(--dark);
+      margin: 1.2rem 0 0.8rem;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    ul, ol {
+      padding-left: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    ul li, ol li {
+      margin-bottom: 0.8rem;
+      position: relative;
+      padding-left: 1.5rem;
+      font-size: 1.1rem;
+    }
+
+    ul li::before {
+      content: '🚚';
+      position: absolute;
+      left: 0;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    ol li::before {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .stat {
+      background: var(--primary);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .stat:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 20px var(--shadow);
+    }
+
+    blockquote {
+      border-left: 5px solid var(--primary);
+      padding-left: 1.5rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      font-size: 1.2rem;
+      color: var(--dark);
+      background: var(--light);
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .cta-buttons a {
+      background: var(--accent);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 12px var(--shadow);
+      transition: all 0.3s ease;
+      font-size: 1.1rem;
+    }
+
+    .cta-buttons a:hover {
+      background: var(--highlight);
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px var(--shadow);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      background: white;
+      border-top: 1px solid #ddd;
+      font-size: 1rem;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    footer a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: var(--highlight);
+    }
+
+    /* Animations */
+    @keyframes slideInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      header h1 { font-size: 2.5rem; }
+      header p { font-size: 1.1rem; }
+      main { padding: 1.5rem; }
+      .hero { height: 250px; }
+      .stats { grid-template-columns: 1fr; }
+      section h2 { font-size: 1.8rem; }
+    }
+
+    @media (max-width: 480px) {
+      header h1 { font-size: 2rem; }
+      .hero { height: 200px; }
+      section h2 { font-size: 1.6rem; }
+      .cta-buttons a { padding: 0.8rem 1.5rem; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Freight Data⚡-U.S.</h1>
+    <p>AI-Driven Freight Matching, 0% Carrier Fees, Real-Time U.S. Logistics Intelligence</p>
+  </header>
+
+  <div class="hero"></div>
+
+  <main>
+    <section>
+      <h2>Why Choose Us?</h2>
+      <p>
+        We’re building the most powerful freight logistics engine in America — using AI, open bids, and a massive live dataset to connect trusted carriers, forwarders, NVOCCs, brokers, and shippers instantly.
+      </p>
+    </section>
+
+    <section>
+      <h2>Our Network Power</h2>
+      <div class="stats">
+        <div class="stat">828,920+ U.S. Companies</div>
+        <div class="stat">69,493 Freight Forwarders</div>
+        <div class="stat">1,292 NVOCCs + SSLs</div>
+        <div class="stat">79,290 Warehouses</div>
+        <div class="stat">170+ Brokers</div>
+        <div class="stat">7,929 Carriers Onboard</div>
+        <div class="stat">45,299 Pending Carriers</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Why Freight Data⚡-U.S. Is the Future of American Freight Logistics</h2>
+      <p>In today’s high-stakes supply chain ecosystem, data is power. But not just any data — real-time, actionable, trustworthy, and AI-curated insights that connect every node of logistics like never before.</p>
+      <p>Welcome to Freight Data⚡-U.S., the platform that’s rewriting the rules of American freight, empowering brokers, NVOCCs, carriers, and forwarders with unprecedented reach, unmatched data, and unbeatable automation.</p>
+      <blockquote>“If we can’t cover it, no one can.”</blockquote>
+      <h4>💡 What Makes Freight Data⚡-U.S. a Game-Changer?</h4>
+      <p>We’ve built something the U.S. freight world has never seen:</p>
+      <blockquote>An AI-driven freight matching engine that works for you — scanning, analyzing, and connecting shipments with the most suitable and trusted logistics partners in real-time.</blockquote>
+      <p>Whether you're in OTR, Drayage, Short-Haul, Long-Haul, Imports or Exports — Freight Data⚡-U.S. has you covered.</p>
+      <h4>📊 The Power Behind Our Platform</h4>
+      <p>We don’t just talk numbers. We own them — and we share them to help you win:</p>
+      <ul>
+        <li>📦 828,920 Companies in our U.S. logistics dataset</li>
+        <li>🚢 1,292 NVOCCs and SSLs</li>
+        <li>🏢 79,290 U.S.-based Warehouses</li>
+        <li>📍 69,493 Freight Forwarders</li>
+        <li>💼 170+ Brokers actively sourcing freight</li>
+        <li>🚛 7,929 Registered U.S. Carriers, with over 45,299 pending onboarding</li>
+        <li>📈 17+ Active NVOCC Partners</li>
+        <li>🛳️ 2+ Strategic SSL Partners</li>
+      </ul>
+      <p>Every number represents a live, breathing part of our freight network — built to help your operation scale without compromise.</p>
+    </section>
+
+    <section>
+      <h2>🤖 Our AI Finds the Perfect Load (or Truck) for You</h2>
+      <p>Why spend hours manually sourcing loads or carriers when our AI bot does the hard work?</p>
+      <p>Our system monitors, verifies, and delivers the best matches directly to your dashboard — or inbox. It’s not just smart... it’s strategic automation.</p>
+      <ul>
+        <li>⚙️ Live Load Matching</li>
+        <li>📥 AI-Curated Opportunities</li>
+        <li>🔎 Transparent Carrier/Forwarder Emails</li>
+        <li>📧 Up-to-date Contact Info</li>
+        <li>🛡️ Secure & Verified Partnerships</li>
+      </ul>
+      <h4>🧠 Data-Backed, Bot-Powered, Profit-Focused</h4>
+      <p>Our freight engine is always ON. Our AI bots are constantly collecting and cross-verifying data from verified sources to ensure:</p>
+      <ul>
+        <li>✅ Correct names</li>
+        <li>✅ Active emails</li>
+        <li>✅ Trusted numbers</li>
+        <li>✅ Live availability</li>
+      </ul>
+      <p>All of this delivered to your screen in real-time — before your competition sees it.</p>
+      <h4>📦 CARRIERS — Get Loads with 0% Commission. Forever.</h4>
+      <p>If you’re a carrier, you get lifetime free access — no commissions, no platform fees.</p>
+      <p>But here’s the catch:</p>
+      <p>➡️ You must be registered on our TrucksOnly portal and mailing system. That’s how we send you the hottest loads, every hour of the day, across all U.S. states.</p>
+      <h4>🧩 Freight Forwarders, Brokers, SSLs & NVOCCs — You’re In the Driver’s Seat</h4>
+      <p>You get access to:</p>
+      <ol>
+        <li>Thousands of carriers uploading live bids</li>
+        <li>Open rate check-up and bidding tools</li>
+        <li>Email exchange with carriers upon match</li>
+        <li>Unlimited load uploads</li>
+        <li>No account required (optional sign-up)</li>
+      </ol>
+      <p>Your first 5 carrier matches are 100% free. After that, we charge just $6.70 per email match. Still cheaper than a cold call, and 10x more effective.</p>
+      <h4>💸 Transparent Pricing. Simple Structure.</h4>
+      <ul>
+        <li>🚚 Carriers: $0 fees forever</li>
+        <li>📦 Load Uploaders (Forwarders, Brokers, etc.): Only 2% per matched load</li>
+        <li>💬 Email Contacts: First 5 free, then $6.70 per match</li>
+        <li>❌ No monthly fees. No contracts. Just Results.</li>
+      </ul>
+      <h4>🚧 IP Ban Policy: No Spam, No Repeats</h4>
+      <p>We value real work. If the same load is uploaded more than twice in a short span, the system auto-bans the IP. Respect the platform, and it’ll take you far.</p>
+      <p>Also, don’t try to game or attack the platform — our security is smart enough to cut all connections automatically. Bots defend the fort, always.</p>
+    </section>
+
+    <section>
+      <h2>How to Get Started</h2>
+      <h4>🚛 Carriers:</h4>
+      <blockquote>👉 Register Here — free forever</blockquote>
+      <p>📬 Get added to our mailing list for live loads</p>
+      <h4>📦 Freight Forwarders, SSLs, Brokers, NVOCCs:</h4>
+      <ol>
+        <li>Visit our site</li>
+        <li>Click Sign Up (or just upload a load directly)</li>
+        <li>Wait for bids from 7000+ active U.S. carriers</li>
+        <li>Pick best rates, contact us</li>
+        <li>We’ll share verified carrier emails instantly</li>
+        <li>Begin hauling with confidence 🚛</li>
+      </ol>
+      <h4>💬 Where to Reach Us</h4>
+      <p>📧 Email: <a href="mailto:freightdataus@outlook.com">freightdataus@outlook.com</a></p>
+      <p>💬 Telegram: <a href="https://t.me/freightus" target="_blank">Join Freight Data-U.S. Chat</a></p>
+      <p>📱 WhatsApp/DMs: Message us for instant onboarding</p>
+      <h4>🤝 Partnership Round Now Open (Pre-Launch)</h4>
+      <p>Freight Data⚡-U.S. is currently in pre-launch fundraising and open to partnerships. We’re 100% donation-supported and bootstrapped — no VCs, no bureaucracy.</p>
+      <blockquote>Join us as a foundational partner and let’s redefine U.S. logistics forever.</blockquote>
+      <h4>🌐 Why the Industry Trusts Us</h4>
+      <blockquote>“Freight Data⚡-U.S. isn’t a platform. It’s a movement.”</blockquote>
+      <p>We’re about connecting dots that traditional logistics has ignored. We’re here to streamline operations, reduce deadhead miles, cut idle time, and push every freight company into the data-first future.</p>
+      <h4>🛠️ In Summary — Freight Data⚡-U.S. Gives You:</h4>
+      <ul>
+        <li>✅ AI Matching for Loads and Carriers</li>
+        <li>✅ Real-Time Verified Freight Intelligence</li>
+        <li>✅ Lifetime Free Carrier Access</li>
+        <li>✅ Smart Bidding with Open Data</li>
+        <li>✅ 828K+ U.S. Companies in Our Network</li>
+        <li>✅ Transparent, Profitable Load Exchanges</li>
+        <li>✅ No Gatekeeping, Just Growth</li>
+      </ul>
+      <h4>🚀 Join the Freight Revolution Today</h4>
+      <p>Let’s build a future where data drives logistics, not luck. Where every shipment, every rate, every match is based on facts, not friction.</p>
+      <p>Freight Data⚡-U.S. — Your Supply Chain, Supercharged.</p>
+    </section>
+
+    <section class="cta-buttons">
+      <a href="https://truckssetup.onrender.com/" target="_blank">📝 Carrier Registration</a>
+      <a href="mailto:freightdataus@outlook.com">📩 Contact Us</a>
+      <a href="https://t.me/freightus" target="_blank">🚀 Join Telegram</a>
+      <a href="Pickup.html">🚛 Book a Load</a>
+      <a href="Load.html" target="_blank">⭐ Broadcast Load</a>
+    </section>
+  </main>
+
+  <footer>
+    Freight Data⚡-U.S. | The Future of Logistics is Now  
+    <br /> Email: <a href="mailto:freightdataus@outlook.com">freightdataus@outlook.com</a>  
+    <br /> All Rights Reserved © 2025
+  </footer>
+
+  <script>
+    // Sticky header effect
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Scroll-triggered animations
+    const sections = document.querySelectorAll('section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animation = 'fadeInUp 0.8s ease-in-out forwards';
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Ensure emoji rendering
+    document.querySelectorAll('p, li, h2, h4, blockquote').forEach(element => {
+      element.innerHTML = element.innerHTML.replace(/([^\x00-\x7F]+)/g, '<span class="emoji">$1</span>');
+    });
+  </script>
+</body>
+</html>

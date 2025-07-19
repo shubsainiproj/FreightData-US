@@ -187,7 +187,7 @@
         transparent 50%
       );
       opacity: 0.4;
-      animation: slideEffect 5s ease-in-out infinite
+      animation: slideEffect 5s ease-in-out infinite;
     }
 
     .effect-layer:nth-child(2) {
@@ -484,10 +484,10 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token: 'CAPTCHA_SUCCESS', progress })
           });
-          // Redirect to broadcast.html after 2 seconds
+          // Auto-redirect to broadcast.html after 3 seconds
           setTimeout(() => {
             window.location.href = 'broadcast.html';
-          }, 2000);
+          }, 3000);
         }
       }, 40);
     };
@@ -500,7 +500,7 @@
       clearInterval(holdInterval);
 
       releaseInterval = setInterval(() => {
-        if (!isHolding && progress >  groin0 && progress < 100) {
+        if (!isHolding && progress > 0 && progress < 100) {
           progress -= 1.5;
           updateProgress();
         }
@@ -509,7 +509,7 @@
 
     // Bot Detection (Basic)
     let mouseMovements = 0;
-    document.addEventListener('mousemove', mouseMovements++);
+    document.addEventListener('mousemove', () => mouseMovements++);
     
     const checkBot = () => {
       if (mouseMovements < 5 && attemptCount > 1) {
@@ -520,9 +520,7 @@
     };
 
     // Event Listeners
-    verify
-
-Button.addEventListener('mousedown', () => checkBot() && startHold());
+    verifyButton.addEventListener('mousedown', () => checkBot() && startHold());
     document.addEventListener('mouseup', stopHold);
     verifyButton.addEventListener('touchstart', (e) => {
       e.preventDefault();

@@ -47,22 +47,14 @@
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: clamp(2rem, 5vw, 4rem);
       font-weight: 900;
       color: var(--text-dark);
       text-transform: uppercase;
       letter-spacing: 3px;
       margin-bottom: 2rem;
       text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-      position: relative;
       animation: fadeIn 1s ease-out;
-    }
-    @media (max-width: 600px) {
-      h1 { font-size: 2rem; }
-      .container { padding: 1.5rem; }
-    }
-    @media (min-width: 1200px) {
-      h1 { font-size: 4rem; }
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
@@ -74,11 +66,11 @@
       border-radius: var(--border-radius);
       box-shadow: var(--shadow);
       width: 100%;
-      max-width: 800px;
-      padding: 2.5rem;
+      max-width: 900px;
+      padding: clamp(1.5rem, 3vw, 2.5rem);
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      grid-gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-gap: clamp(1rem, 2vw, 2rem);
       animation: floatUp 0.8s ease-out;
       transition: transform var(--transition), box-shadow var(--transition);
     }
@@ -98,14 +90,16 @@
       margin-bottom: 0.75rem;
       font-weight: 600;
       color: var(--text-light);
-      font-size: 1.1rem;
+      font-size: clamp(1rem, 1.5vw, 1.1rem);
     }
     label i {
       margin-right: 0.5rem;
       font-size: 1.2rem;
+      transition: color var(--transition);
     }
+    label:hover i { color: var(--primary); }
 
-    input, textarea {
+    input, textarea, select {
       width: 100%;
       padding: 1rem;
       border: 2px solid #e0e0e0;
@@ -115,17 +109,17 @@
       background: #f8fafc;
       box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
     }
-    input:focus, textarea:focus {
+    input:focus, textarea:focus, select:focus {
       border-color: var(--primary);
       box-shadow: 0 0 16px rgba(26,188,156,0.4), inset 0 2px 4px rgba(0,0,0,0.05);
       outline: none;
       background: #fff;
     }
-    input:invalid:not(:placeholder-shown), textarea:invalid:not(:placeholder-shown) {
+    input:invalid:not(:placeholder-shown), textarea:invalid:not(:placeholder-shown), select:invalid:not(:focus) {
       border-color: #e74c3c;
       box-shadow: 0 0 16px rgba(231,76,60,0.4);
     }
-    input:valid:not(:placeholder-shown) {
+    input:valid:not(:placeholder-shown), select:valid {
       border-color: var(--primary);
       box-shadow: 0 0 16px rgba(26,188,156,0.4);
     }
@@ -144,7 +138,6 @@
       font-size: 1.2rem;
       cursor: pointer;
       transition: all var(--transition);
-      text-decoration: none;
       box-shadow: var(--shadow);
     }
     .btn:hover {
@@ -160,11 +153,7 @@
       flex-direction: column;
       gap: 1rem;
       width: 100%;
-      max-width: 800px;
-    }
-    .bottom-buttons .btn {
-      width: 100%;
-      text-align: center;
+      max-width: 900px;
     }
     @media (min-width: 600px) {
       .bottom-buttons {
@@ -201,6 +190,7 @@
       font-size: 0.9rem;
       margin-top: 0.25rem;
       display: none;
+      animation: fadeIn 0.3s ease-out;
     }
     .error-message.active { display: block; }
 
@@ -223,6 +213,11 @@
       from { opacity: 1; }
       to { opacity: 0; }
     }
+
+    @media (max-width: 480px) {
+      body { padding: 1rem; }
+      .container { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -236,31 +231,43 @@
     </div>
     <div>
       <label for="phoneExt"><i class="fas fa-phone"></i> Number with extension</label>
-      <input type="tel" id="phoneExt" name="phoneExt" placeholder="(123) 456-7890 ext:123"
+      <input type="tel" id="phoneExt" name="phoneExt" placeholder="(123) 456-7890 ext:-123"
              pattern="^\(\d{3}\)\s\d{3}-\d{4}(\s(ext|extension):[0-9]{1,5})?$"
-             title="Enter 10 digits in (XXX) XXX-XXXX format, with optional extension" required />
+             title="Enter in (XXX) XXX-XXXX format, optional ext" required />
       <span class="error-message" id="phoneError">Invalid phone format (e.g., (123) 456-7890 ext:123)</span>
     </div>
     <div>
       <label for="startFrom"><i class="fas fa-map-marker-alt"></i> Starts From</label>
-      <input type="text" id="startFrom" name="startFrom" placeholder="From the Origin point of..." required />
+      <input type="text" id="startFrom" name="startFrom" placeholder="Origin point" required />
     </div>
     <div>
       <label for="deliverTo"><i class="fas fa-map-marker-alt"></i> Deliver To</label>
-      <input type="text" id="deliverTo" name="deliverTo" placeholder="Destination of delivery" required />
+      <input type="text" id="deliverTo" name="deliverTo" placeholder="Destination" required />
     </div>
     <div>
       <label for="weight"><i class="fas fa-weight-hanging"></i> Weight of Cargo</label>
-      <input type="text" id="weight" name="weight" placeholder="e.g. 56000 lbs" pattern="^\d+(\.\d{1,2})?\s*(lbs|kg)?$" title="Enter weight (e.g., 56000 lbs or 25000 kg)" required />
-      <span class="error-message" id="weightError">Invalid weight format (e.g., 56000 lbs)</span>
+      <input type="text" id="weight" name="weight" placeholder="e.g. 56000 lbs"
+             pattern="^\d+(\.\d{1,2})?\s*(lbs|kg)?$" title="Enter weight (e.g., 56000 lbs)" required />
+      <span class="error-message" id="weightError">Invalid weight format</span>
     </div>
     <div>
       <label for="volume"><i class="fas fa-cube"></i> Volume</label>
-      <input type="text" id="volume" name="volume" placeholder="e.g. 20'-40' CONT./DRY VAN/REFER³" required />
+      <input type="text" id="volume" name="volume" placeholder="e.g. 40' CONT./DRY VAN" required />
+    </div>
+    <div>
+      <label for="companyType"><i class="fas fa-building"></i> Company Type</label>
+      <select id="companyType" name="companyType" required>
+        <option value="">Select Company Type</option>
+        <option value="CO_BROKER_FORWARDING">Broker/Freight Forwarder</option>
+        <option value="CO_CONSIGNEE">Consignee</option>
+        <option value="CO_SHIPPER">Shipper</option>
+        <option value="CO_SHIPPING_LINE">Steamship Line(s)</option>
+        <option value="CO_TRUCKER">Trucker && Broker</option>
+      </select>
     </div>
     <div class="full">
       <label for="notes"><i class="fas fa-sticky-note"></i> Additional Notes</label>
-      <textarea id="notes" name="notes" rows="8" placeholder="Any other details that might help to quote the best rates..."></textarea>
+      <textarea id="notes" name="notes" rows="8" placeholder="Details for best rates..."></textarea>
     </div>
     <div class="full" style="text-align: center;">
       <button type="button" class="btn" id="broadcastBtn"><i class="fas fa-broadcast-tower"></i> Broadcast</button>
@@ -306,21 +313,17 @@
 
     // Volume placeholder animation
     const placeholders = [
-      "e.g. Anytype x per Month",
-      "e.g. 20' CONT. x per Month",
-      "e.g. Dry Van x per Month",
-      "e.g. Pallets x per Month",
-      "e.g. Refer x per Month",
-      "e.g. 20' HC CONT. x per Month",
-      "e.g. Flatbed x per Month",
-      "e.g. Anytype x per Month",
-      "e.g. Open top x per Month",
-      "e.g. 40' CONT. x per Month",
-      "e.g. Endump x per Month",
-      "e.g. Lowboy x per Month",
-      "e.g. 40' HC CONT. x per Month",
-      "e.g. Removable Goose Neck (RGN) x per Month",
-      "e.g. Anytype x per Month",
+      "e.g. 20' CONT.",
+      "e.g. Dry Van",
+      "e.g. Pallets",
+      "e.g. Reefer",
+      "e.g. 40' HC CONT.",
+      "e.g. Flatbed",
+      "e.g. Open Top",
+      "e.g. 40' CONT.",
+      "e.g. End Dump",
+      "e.g. Lowboy",
+      "e.g. RGN"
     ];
     let placeholderIndex = 0;
     volumeInput.classList.add('fade-transition', 'fade-in');
@@ -383,20 +386,23 @@
           body: JSON.stringify(data)
         });
         const res = await response.json();
-        logEntry.status = 'success';
-        localStorage.setItem('auditLog', JSON.stringify(auditLog));
-        loaderOverlay.classList.remove('active');
-        successMessage.classList.add('active');
-        setTimeout(() => successMessage.classList.remove('active'), 3000);
-        form.reset();
+        if (res.success) {
+          logEntry.status = 'success';
+          localStorage.setItem('auditLog', JSON.stringify(auditLog));
+          loaderOverlay.classList.remove('active');
+          successMessage.classList.add('active');
+          setTimeout(() => successMessage.classList.remove('active'), 3000);
+          form.reset();
 
-        const fileCount = Number(localStorage.getItem('fileCount') || 0) + 1;
-        localStorage.setItem(' víasfileCount', fileCount);
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `load${fileCount}.json`;
-        link.click();
+          // Use server-provided file name for download
+          const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = res.fileName;
+          link.click();
+        } else {
+          throw new Error('Server responded with failure');
+        }
       } catch (err) {
         console.error(err);
         logEntry.status = 'failed';

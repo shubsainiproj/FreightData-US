@@ -10,7 +10,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Ensure broadcasts directory exists
+// Serve static files from the current directory
+app.use(express.static(path.join(__dirname)));
+
+// Ensure broadcasts directory exists for saving JSON files
 const broadcastsDir = path.join(__dirname, 'broadcasts');
 if (!fs.existsSync(broadcastsDir)) {
   fs.mkdirSync(broadcastsDir);
@@ -20,7 +23,6 @@ if (!fs.existsSync(broadcastsDir)) {
 app.post('/api/broadcast', (req, res) => {
   try {
     const data = req.body;
-    // Read existing files to determine next number
     const files = fs.readdirSync(broadcastsDir);
     const numbers = files
       .filter(file => file.startsWith('load') && file.endsWith('.json'))
@@ -31,13 +33,27 @@ app.post('/api/broadcast', (req, res) => {
     const fileName = `load${nextNumber}.json`;
     const filePath = path.join(broadcastsDir, fileName);
 
-    // Save data to file
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
     res.json({ success: true, fileName });
   } catch (error) {
     console.error('Error saving file:', error);
     res.status(500).json({ success: false, error: 'Failed to save broadcast' });
   }
+});
+
+// Serve broadcast.html at the root URL
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'broadcast.html'));
+});
+
+// Serve index.html at /index
+app.get('/index', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Serve capatch.html at /capatch
+app.get('/capatch', (req, res) => {
+  res.sendFile(path.join(__dirname, 'capatch.html'));
 });
 
 // Start server

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freight Data⚡-U.S. | Elite Partnership Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #1abc9c;
+            --accent-green: #16a085;
+            --cream: #f5f3f0;
+            --dark-bg: #0a0a0a;
+            --charcoal: #1a1a1a;
+            --silver: #c0c0c0;
+            --light-silver: #e8e8e8;
+            --grey: #666666;
+            --white: #ffffff;
+            --gradient-primary: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+            --gradient-accent: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+            --shadow-primary: 0 20px 60px rgba(0,0,0,0.3);
+            --shadow-hover: 0 30px 80px rgba(0,0,0,0.4);
+            --glow-green: 0 0 30px rgba(26, 188, 156, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .background-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(26, 188, 156, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(192, 192, 192, 0.05) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            z-index: -2;
+        }
+
+        .geometric-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            z-index: -1;
+            background-image: 
+                linear-gradient(45deg, transparent 40%, rgba(192, 192, 192, 0.1) 50%, transparent 60%),
+                linear-gradient(-45deg, transparent 40%, rgba(26, 188, 156, 0.1) 50%, transparent 60%);
+            background-size: 60px 60px;
+            animation: geometricMove 20s linear infinite;
+        }
+
+        @keyframes geometricMove {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(60px) translateY(60px); }
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(192, 192, 192, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 10, 10, 0.98);
+            box-shadow: var(--shadow-primary);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--silver);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-green);
+            text-shadow: var(--glow-green);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--white) 0%, var(--silver) 50%, var(--primary-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { filter: drop-shadow(0 0 10px rgba(26, 188, 156, 0.3)); }
+            100% { filter: drop-shadow(0 0 30px rgba(26, 188, 156, 0.6)); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--silver);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .stat-card {
+            background: var(--gradient-primary);
+            border: 1px solid rgba(192, 192, 192, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(26, 188, 156, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-green);
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary-green);
+            display: block;
+            margin-bottom: 0.5rem;
+            animation: countUp 2s ease-out;
+        }
+
+        .stat-label {
+            color: var(--cream);
+            font-size: 1rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .partnership-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .partnership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-bottom: 6rem;
+        }
+
+        .partnership-card {
+            background: var(--gradient-primary);
+            border: 1px solid rgba(192, 192, 192, 0.1);
+            border-radius: 25px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .partnership-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(26, 188, 156, 0.05) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .partnership-card:hover::after {
+            opacity: 1;
+        }
+
+        .partnership-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--primary-green);
+        }
+
+        .card-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--white);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-description {
+            color: var(--cream);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-features {
+            list-style: none;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-features li {
+            color: var(--silver);
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .card-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-green);
+            font-weight: bold;
+        }
+
+        .cta-section {
+            background: var(--gradient-primary);
+            border: 2px solid rgba(26, 188, 156, 0.3);
+            border-radius: 30px;
+            padding: 4rem;
+            text-align: center;
+            margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(26, 188, 156, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--white);
+        }
+
+        .cta-description {
+            font-size: 1.2rem;
+            color: var(--cream);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            background: var(--gradient-accent);
+            color: var(--white);
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--glow-green);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--gradient-accent);
+            color: var(--white);
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 60%; left: 85%; animation-delay: 2s; }
+        .floating-element:nth-child(3) { top: 80%; left: 20%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-20px) scale(1.2); }
+        }
+
+        .footer {
+            background: var(--charcoal);
+            border-top: 1px solid rgba(192, 192, 192, 0.1);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--grey);
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--silver);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-green);
+        }
+
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .partnership-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            animation: reveal 0.8s ease-out forwards;
+        }
+
+        @keyframes reveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    <div class="geometric-bg"></div>
+    
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Freight Data⚡-U.S.</div>
+            <ul class="nav-links">
+                <li><a href="#partnership">Partnership</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Elite Partnership Portal</h1>
+            <p class="hero-subtitle">Join America's Most Advanced Freight Intelligence Network</p>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-number">7,992</span>
+                    <span class="stat-label">Active Users</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">$0</span>
+                    <span class="stat-label">Total Revenue</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">Partner Firms</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="partnership-section" id="partnership">
+        <h2 class="section-title">Strategic Partnership Opportunities</h2>
+        
+        <div class="partnership-grid">
+            <div class="partnership-card reveal">
+                <div class="card-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3 class="card-title">Foundational Partners</h3>
+                <p class="card-description">
+                    Join us at the ground level as we build America's most comprehensive freight intelligence platform. Exclusive access to our pre-launch ecosystem with unprecedented growth potential.
+                </p>
+                <ul class="card-features">
+                    <li>Equity participation opportunities</li>
+                    <li>Revenue sharing agreements</li>
+                    <li>Priority access to new features</li>
+                    <li>Co-branding opportunities</li>
+                    <li>Strategic advisory roles</li>
+                </ul>
+            </div>
+
+            <div class="partnership-card reveal">
+                <div class="card-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h3 class="card-title">Technology Integration</h3>
+                <p class="card-description">
+                    Seamlessly integrate your existing systems with our AI-powered platform. Access real-time data streams, automated matching algorithms, and advanced analytics dashboards.
+                </p>
+                <ul class="card-features">
+                    <li>API integration support</li>
+                    <li>Custom development partnerships</li>
+                    <li>White-label solutions</li>
+                    <li>Data analytics licensing</li>
+                    <li>Machine learning collaboration</li>
+                </ul>
+            </div>
+
+            <div class="partnership-card reveal">
+                <div class="card-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="card-title">Growth Acceleration</h3>
+                <p class="card-description">
+                    Scale your operations with our comprehensive network of 828,920+ verified companies, advanced matching algorithms, and zero-fee carrier access model.
+                </p>
+                <ul class="card-features">
+                    <li>Instant network access</li>
+                    <li>Performance optimization</li>
+                    <li>Market expansion support</li>
+                    <li>Operational efficiency gains</li>
+                    <li>Competitive advantage</li>
+                </ul>
+            </div>
+
+            <div class="partnership-card reveal">
+                <div class="card-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="card-title">Enterprise Security</h3>
+                <p class="card-description">
+                    Benefit from our enterprise-grade security infrastructure, compliance management, and risk mitigation protocols designed for the modern logistics ecosystem.
+                </p>
+                <ul class="card-features">
+                    <li>Advanced encryption protocols</li>
+                    <li>Compliance management</li>
+                    <li>Risk assessment tools</li>
+                    <li>Fraud prevention systems</li>
+                    <li>Data protection guarantees</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Transform Logistics?</h2>
+                <p class="cta-description">
+                    Join the revolution that's redefining American freight. Our pre-launch partnership program offers exclusive opportunities for visionary companies ready to lead the industry into the data-driven future.
+                </p>
+                <div class="cta-buttons">
+                    <a href="mailto:freightdataus@outlook.com" class="cta-button">
+                        <i class="fas fa-rocket"></i>
+                        Become a Partner
+                    </a>
+                    <a href="https://t.me/freightus" class="cta-button secondary">
+                        <i class="fas fa-comments"></i>
+                        Schedule Demo
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">Freight Data⚡-U.S.</div>
+            <p class="footer-text">Revolutionizing American Logistics Through Advanced Intelligence</p>
+            <div class="footer-links">
+                <a href="mailto:freightdataus@outlook.com">Contact</a>
+                <a href="https://t.me/freightus">Telegram</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+            <p class="footer-text">© 2025 Freight Data-U.S. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Reveal animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('reveal');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.partnership-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Dynamic stat animation
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const finalValue = stat.textContent;
+                if (finalValue.includes('$') || finalValue === '0') return;
+                
+                const numValue = parseInt(finalValue.replace(/,/g, ''));
+                let currentValue = 0;
+                const increment = numValue / 100;
+                const timer = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= numValue) {
+                        currentValue = numValue;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = Math.floor(currentValue).toLocaleString();
+                }, 20);
+            });
+        }
+
+        // Trigger stat animation when stats come into view
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        });
+
+        statsObserver.observe(document.querySelector('.stats-container'));
+
+        // Add particle effects on mouse movement
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.98) {
+                createParticle(e.clientX, e.clientY);
+            }
+        });
+
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.width = '2px';
+            particle.style.height = '2px';
+            particle.style.background = '#1abc9c';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '9999';
+            particle.style.animation = 'particleFade 1s ease-out forwards';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 1000);
+        }
+
+        // Add particle fade animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes particleFade {
+                0% { opacity: 1; transform: scale(1); }
+                100% { opacity: 0; transform: scale(0) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -557,6 +557,86 @@
                 transform: translateY(0);
             }
         }
+        .company-scroller {
+    max-width: 800px;
+    margin: 2rem auto;
+    height: 200px; /* Height to show 5 rows */
+    overflow: hidden;
+    position: relative;
+    border-radius: 15px;
+    background: var(--gradient-primary);
+    border: 1px solid rgba(192, 192, 192, 0.1);
+    box-shadow: var(--shadow-primary);
+    padding: 1rem;
+}
+
+.scroller-inner {
+    display: flex;
+    flex-direction: column;
+    animation: scroll 20s linear infinite;
+}
+
+.scroller-inner:hover {
+    animation-play-state: paused;
+}
+
+.scroller-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.company-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(192, 192, 192, 0.1);
+    color: var(--light-silver);
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.company-row:last-child {
+    border-bottom: none;
+}
+
+.company-name {
+    font-family: 'Orbitron', monospace;
+    color: var(--primary-green);
+    font-weight: 700;
+}
+
+.company-location {
+    color: var(--cream);
+}
+
+.company-value {
+    color: var(--white);
+    font-weight: 600;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-50%); /* Move up by half the content height */
+    }
+}
+
+@media (max-width: 768px) {
+    .company-scroller {
+        height: 150px;
+        margin: 1.5rem auto;
+    }
+
+    .company-row {
+        font-size: 0.9rem;
+        padding: 0.8rem;
+    }
+}
+        
     </style>
 </head>
 <body>
@@ -601,6 +681,167 @@
             </div>
         </div>
     </section>
+
+<div class="company-scroller">
+    <div class="scroller-inner">
+        <!-- Repeated for seamless scrolling -->
+        <div class="scroller-list">
+            <div class="company-row">
+                <span class="company-name">EPTM</span>
+                <span class="company-location">GA, USA</span>
+                <span class="company-value">$790K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">EVGRN</span>
+                <span class="company-location">NY, USA</span>
+                <span class="company-value">$1M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">S2USA</span>
+                <span class="company-location">MI, USA</span>
+                <span class="company-value">$2M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">LOGIX</span>
+                <span class="company-location">CA, USA</span>
+                <span class="company-value">$1.5M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">FREIGHTX</span>
+                <span class="company-location">TX, USA</span>
+                <span class="company-value">$950K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">TRANSOL</span>
+                <span class="company-location">FL, USA</span>
+                <span class="company-value">$1.2M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">NEXUS</span>
+                <span class="company-location">IL, USA</span>
+                <span class="company-value">$800K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">CARGOZ</span>
+                <span class="company-location">OH, USA</span>
+                <span class="company-value">$1.8M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">SHIPRITE</span>
+                <span class="company-location">PA, USA</span>
+                <span class="company-value">$600K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">MOVEFWD</span>
+                <span class="company-location">AZ, USA</span>
+                <span class="company-value">$1.3M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">TRAKR</span>
+                <span class="company-location">NV, USA</span>
+                <span class="company-value">$700K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">LOADSTAR</span>
+                <span class="company-location">CO, USA</span>
+                <span class="company-value">$1.1M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">FREIGHTPRO</span>
+                <span class="company-location">WA, USA</span>
+                <span class="company-value">$850K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">TRANSUSA</span>
+                <span class="company-location">NJ, USA</span>
+                <span class="company-value">$1.4M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">LOGICAR</span>
+                <span class="company-location">NC, USA</span>
+                <span class="company-value">$900K</span>
+            </div>
+        </div>
+        <!-- Duplicate the list for seamless scrolling -->
+        <div class="scroller-list" aria-hidden="true">
+            <div class="company-row">
+                <span class="company-name">EPTM</span>
+                <span class="company-location">GA, USA</span>
+                <span class="company-value">$790K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">EVGRN</span>
+                <span class="company-location">NY, USA</span>
+                <span class="company-value">$1M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">S2USA</span>
+                <span class="company-location">MI, USA</span>
+                <span class="company-value">$2M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">LOGIX</span>
+                <span class="company-location">CA, USA</span>
+                <span class="company-value">$1.5M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">FREIGHTX</span>
+                <span class="company-location">TX, USA</span>
+                <span class="company-value">$950K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">TRANSOL</span>
+                <span class="company-location">FL, USA</span>
+                <span class="company-value">$1.2M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">NEXUS</span>
+                <span class="company-location">IL, USA</span>
+                <span class="company-value">$800K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">CARGOZ</span>
+                <span class="company-location">OH, USA</span>
+                <span class="company-value">$1.8M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">SHIPRITE</span>
+                <span class="company-location">PA, USA</span>
+                <span class="company-value">$600K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">MOVEFWD</span>
+                <span class="company-location">AZ, USA</span>
+                <span class="company-value">$1.3M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">TRAKR</span>
+                <span class="company-location">NV, USA</span>
+                <span class="company-value">$700K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">LOADSTAR</span>
+                <span class="company-location">CO, USA</span>
+                <span class="company-value">$1.1M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">FREIGHTPRO</span>
+                <span class="company-location">WA, USA</span>
+                <span class="company-value">$850K</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">TRANSUSA</span>
+                <span class="company-location">NJ, USA</span>
+                <span class="company-value">$1.4M</span>
+            </div>
+            <div class="company-row">
+                <span class="company-name">LOGICAR</span>
+                <span class="company-location">NC, USA</span>
+                <span class="company-value">$900K</span>
+            </div>
+        </div>
+    </div>
+</div>
 
     <section class="partnership-section" id="partnership">
         <h2 class="section-title">Strategic Partnership Opportunities</h2>
@@ -817,6 +1058,22 @@
             }
         `;
         document.head.appendChild(style);
+        
+        // Ensure scroller is accessible
+document.querySelector('.company-scroller').setAttribute('aria-label', 'Scrolling list of partner companies');
+document.querySelectorAll('.company-row').forEach(row => {
+    row.setAttribute('role', 'listitem');
+});
+
+// Optional: Pause/resume scrolling on focus for accessibility
+document.querySelector('.company-scroller').addEventListener('focusin', () => {
+    document.querySelector('.scroller-inner').style.animationPlayState = 'paused';
+});
+
+document.querySelector('.company-scroller').addEventListener('focusout', () => {
+    document.querySelector('.scroller-inner').style.animationPlayState = 'running';
+});
+
     </script>
 </body>
 </html>
